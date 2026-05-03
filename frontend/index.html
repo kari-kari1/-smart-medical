@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧医疗管理系统</title>
+    <link rel="stylesheet" href="/lib/element-plus.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+
+    <!-- Core Libraries - Order matters! -->
+    <script src="/lib/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-demi@0.14.6/lib/index.iife.js"></script>
+    <script src="/lib/vue-router.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pinia@2.1.7/dist/pinia.iife.js"></script>
+    <script src="/lib/element-plus.min.js"></script>
+    <script src="/lib/icons-vue.iife.min.js"></script>
+    <script src="/lib/zh-cn.min.js"></script>
+    <script src="/lib/socket.io.min.js"></script>
+    <script src="/lib/axios.min.js"></script>
+
+    <!-- Global exports for component files -->
+    <script>
+        window.VueRouter = VueRouter;
+        window.Pinia = Pinia;
+        // Debug: Log when libraries load
+        console.log('Vue loaded:', typeof Vue !== 'undefined');
+        console.log('VueRouter loaded:', typeof VueRouter !== 'undefined');
+        console.log('Pinia loaded:', typeof Pinia !== 'undefined');
+        console.log('ElementPlus loaded:', typeof ElementPlus !== 'undefined');
+        console.log('io (Socket.IO) loaded:', typeof io !== 'undefined');
+        if (typeof io === 'undefined') {
+            console.error('ERROR: Socket.IO client not loaded!');
+        }
+    </script>
+
+    <!-- API & Stores -->
+    <script src="/js/api.js"></script>
+    <script src="/js/stores/auth.js"></script>
+    <script src="/js/stores/chat.js"></script>
+
+    <!-- Global Components -->
+    <script src="/js/components/layout.js"></script>
+
+    <!-- Views -->
+    <script src="/js/views/login.js"></script>
+    <script src="/js/views/register.js"></script>
+    <script src="/js/views/patient/dashboard.js"></script>
+    <script src="/js/views/patient/reg.js"></script>
+    <script src="/js/views/patient/health.js"></script>
+    <script src="/js/views/patient/viewcase.js"></script>
+    <script src="/js/views/patient/chat.js"></script>
+    <script src="/js/views/doctor/dashboard.js"></script>
+    <script src="/js/views/doctor/caseedit.js"></script>
+    <script src="/js/views/doctor/profile.js"></script>
+    <script src="/js/views/doctor/checkin.js"></script>
+    <script src="/js/views/doctor/chat.js"></script>
+
+    <!-- App - Load LAST -->
+    <script src="/js/app.js"></script>
+</body>
+</html>
