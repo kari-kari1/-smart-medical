@@ -1,19 +1,25 @@
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Config:
-    # MySQL
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@127.0.0.1:3306/hospital?charset=utf8mb4'
+    # MySQL - 请在 .env 文件中配置
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL',
+        'mysql+pymysql://username:password@127.0.0.1:3306/smart_medical?charset=utf8mb4'
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
 
-    # JWT
-    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'smart-medical-secret-key-2026')
+    # JWT - 请在 .env 文件中配置安全的随机字符串
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'CHANGE_ME_IN_ENV_FILE')
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7)
 
-    # SocketIO
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'socket-io-secret-2026')
+    # SocketIO - 请在 .env 文件中配置安全的随机字符串
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'CHANGE_ME_IN_ENV_FILE')
 
     # CORS
     CORS_ORIGINS = '*'
