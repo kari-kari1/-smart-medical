@@ -45,6 +45,7 @@
 - **Flask-CORS** - 跨域资源共享
 - **PyMySQL** - MySQL 数据库驱动
 - **bcrypt** - 密码加密
+- **python-dotenv** - 环境变量管理
 
 ### 数据库
 - **MySQL** - 关系型数据库
@@ -69,65 +70,100 @@ smart-medical/
 │   │   └── views/         # 页面组件
 │   ├── lib/               # 第三方库
 │   └── index.html         # 入口页面
+├── .env.example           # 环境变量模板
 └── README.md
+```
+
+## 部署配置（必须修改）
+
+克隆项目后，需要进行以下配置才能正常运行：
+
+### 1. 环境变量配置
+
+复制 `.env.example` 为 `.env`，并修改以下配置：
+
+```bash
+cp .env.example .env
+```
+
+编辑 `.env` 文件，修改以下内容：
+
+| 配置项 | 说明 | 示例值 |
+|--------|------|--------|
+| `DATABASE_URL` | MySQL 数据库连接字符串 | `mysql+pymysql://root:your_password@127.0.0.1:3306/smart_medical?charset=utf8mb4` |
+| `JWT_SECRET_KEY` | JWT 签名密钥（请使用随机字符串） | `aBcDeFgHiJkLmNoPqRsTuVwXyZ123456` |
+| `SECRET_KEY` | Socket.IO 签名密钥（请使用随机字符串） | `socketSecretKeyRandomString` |
+
+> ⚠️ **重要**：
+> - 数据库密码请使用你的 MySQL 实际密码
+> - 密钥请使用至少 32 位的随机字符串
+> - 切勿将 `.env` 文件提交到 Git！
+
+### 2. 数据库配置
+
+#### 2.1 创建数据库
+
+登录 MySQL 后执行：
+
+```sql
+CREATE DATABASE smart_medical CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+#### 2.2 确认数据库用户权限
+
+确保 `.env` 中的数据库用户名有权限访问 `smart_medical` 数据库。
+
+### 3. 前端配置（如需修改 API 地址）
+
+如需修改后端 API 地址，编辑 `frontend/js/api.js`：
+
+```javascript
+// 修改 baseURL 为你的后端地址
+const baseURL = 'http://127.0.0.1:5000';  // 默认本地地址
 ```
 
 ## 快速开始
 
 ### 环境要求
 - Python 3.8+
-- Node.js 16+ (可选，前端已内置依赖)
 - MySQL 5.7+ 或 MySQL 8.0+
 
-### 1. 克隆项目
+### 部署步骤
+
 ```bash
+# 1. 克隆项目
 git clone https://github.com/kari-kari1/-smart-medical.git
 cd smart-medical
-```
 
-### 2. 配置数据库
+# 2. 配置环境变量
+cp .env.example .env
+# 编辑 .env 文件，填入你的配置（见上方"部署配置"章节）
 
-创建 MySQL 数据库：
-```sql
-CREATE DATABASE smart_medical CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+# 3. 创建数据库
+mysql -u your_username -p
+# 执行: CREATE DATABASE smart_medical CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+# 退出: exit
 
-创建 `.env` 文件（可选）：
-```env
-# 数据库配置
-SQLALCHEMY_DATABASE_URI=mysql+pymysql://username:password@localhost:3306/smart_medical
-
-# JWT 密钥（请修改为随机字符串）
-JWT_SECRET_KEY=your-secret-key-here
-```
-
-### 3. 安装后端依赖
-```bash
+# 4. 安装后端依赖
 cd backend
 pip install -r requirements.txt
-```
 
-### 4. 启动后端服务
-```bash
+# 5. 启动后端服务
 python run.py
 ```
 
-后端启动后运行在 `http://127.0.0.1:5000`
+启动成功后，访问 `http://127.0.0.1:5000`
 
-### 5. 访问应用
+## 使用说明
 
-打开浏览器访问 `http://127.0.0.1:5000`
+### 注册账号
 
-## 默认账号
+系统没有预置账号，需要通过注册页面自行注册：
 
-系统启动时会自动创建表结构。你可以注册新账号，或使用以下测试账号：
-
-| 角色 | 用户名 | 密码 |
-|------|--------|------|
-| 患者 | patient_test | test123 |
-| 医生 | doctor_test | test123 |
-
-> ⚠️ 测试账号需要在注册后手动创建
+1. 访问 `http://127.0.0.1:5000`
+2. 点击"注册"按钮
+3. 选择身份（患者/医生）
+4. 填写用户名和密码完成注册
 
 ## API 文档
 
